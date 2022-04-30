@@ -2,6 +2,7 @@
 #include <sstream>
 #include <cstdlib>
 #include<SFML/Graphics.hpp>
+#include "ball.h"
 
 int main()
 {
@@ -18,6 +19,7 @@ int main()
 	bat bat(1920 / 2, 1080 - 20);
 
 	//ball
+	Ball ball(1920 / 2, 0);
 
 	//create a text object called hud
 	Text hud;
@@ -78,6 +80,47 @@ int main()
 		//update the delta ime
 		Time dt = clock.restart();
 		bat.update(dt);
+		ball.update(dt);
+
+		//handle ball hitting the bottom
+		if (ball.getPosition().top > window.getSize().y)
+		{
+			//reverse the ball direction
+			ball.reboundBottom();
+
+			//remove a life
+			lives--;
+
+			//reset for zero life
+			if (lives < 1) {
+				//reset the score
+				score = 0;
+				//rest the lives
+				lives = 3;
+			}
+		}
+
+		//handle ball hitting the top
+		if (ball.getPosition().top < 0)
+		{
+			ball.reboundBatOrTop();
+
+			//add a point to the players score
+			score++;
+		}
+
+		//handle ball hitting slide
+		if (ball.getPosition().left<0 || ball.getPosition().left + ball.getPosition().width>window.getSize().x)
+		{
+			ball.reboundSides();
+		}
+
+		// Has the ball hit the bat ?
+			if (ball.getPosition().intersects(bat.getposition()))
+			{
+				// Hit detected so reverse the ball and score a point
+				ball.reboundBatOrTop();
+			}
 		
 		//updatethe HUD text
 		std::stringstream ss;
@@ -90,6 +133,7 @@ int main()
 		window.clear();
 		window.draw(hud);
 		window.draw(bat.getshape());
+		window.draw(ball.getShape());
 		window.display();
 
 	}
