@@ -1,5 +1,5 @@
 # Pong
-The Pong game clone, which is based on ideas and concepts from a "Beginning C++ Game Programming" book by John Horton.
+<img width="520" alt="Capture" src="https://user-images.githubusercontent.com/57986981/166132118-9d93de14-1e0a-4183-b7a8-31dbbbd72bac.PNG">
 
 Hotkeys
 --------
